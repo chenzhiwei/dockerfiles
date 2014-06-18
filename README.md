@@ -47,7 +47,7 @@ $ sudo docker run -d -P --name first_container chenzhiwei/ubuntu:14.04
 ## A full Demo
 
 ```
-$ sudo docker build -t demo-docker/ubuntu:14.04 https://github.com/chenzhiwei/hello-docker.git
+$ sudo docker build -t demo-docker/ubuntu:14.04 git://github.com/chenzhiwei/hello-docker.git
 $ sudo docker run -d -p 2222:22 --name="demo-docker" demo-docker/ubuntu:14.04
 $ ssh -p 2222 ubuntu@127.0.0.1
 Enter password: password
