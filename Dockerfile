@@ -22,4 +22,7 @@ ADD ./config/dot_vimrc /home/ubuntu/.vimrc
 RUN chown -R ubuntu:ubuntu /home/ubuntu
 
 EXPOSE 22
+
+RUN mkdir /var/run/sshd
+
 CMD ["/usr/sbin/sshd", "-D"]
