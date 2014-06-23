@@ -1,5 +1,6 @@
 # docker
 
+Docker is a Linux Container.
 
 ## Install docker
 
@@ -7,6 +8,24 @@
 $ sudo apt-get install docker.io
 $ sudo ln -sf /usr/bin/docker.io /usr/local/bin/docker
 ```
+
+## Docker image
+
+Docker image likes VM image, there is a [Docker Hub][docker-hub-url] that contains pre-built docker images, and you can also build your own docker images.
+
+When you run a docker container, you need to specify a docker image, and docker will first check if the image is present on you local disk, if not docker will fetch this image from Docker Hub.
+
+You can build your docker image and upload to Docker Hub.
+
+## Build a docker image from Dockerfile
+
+```
+$ sudo docker build -t chenzhiwei/ubuntu:14.04 /path/to/Dockerfile_dir
+```
+
+Dockerfile format is located here: <https://docs.docker.com/reference/builder/>.
+
+There is a example Dockerfile in <https://github.com/chenzhiwei/hello-docker>.
 
 ## Run a docker container
 
@@ -28,21 +47,9 @@ $ sudo docker run -i -t --name="first_container" ubuntu:14.04 /bin/echo "Hello, 
 
 `/bin/echo "Hello, World!"` means run a command in the container.
 
-After this, you will launch your first container. If the `ubuntu::14.04` is not present in your local disk, docker will fetch it from [Docker Hub][docker-hub-url].
+After this, you will launch your first container. If the `ubuntu::14.04` is not present on your local disk, docker will fetch it from [Docker Hub][docker-hub-url].
 
 [docker-hub-url]: https://hub.docker.com/
-
-## Build a docker image from Dockerfile
-
-```
-$ sudo docker build -t chenzhiwei/ubuntu:14.04 /path/to/Dockerfile_dir
-```
-
-## Run a docker container
-
-```
-$ sudo docker run -d -P --name first_container chenzhiwei/ubuntu:14.04
-```
 
 ## A full Demo
 
