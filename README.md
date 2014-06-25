@@ -55,12 +55,14 @@ After this, you will launch your first container. If the `ubuntu::14.04` is not 
 
 ```
 $ sudo docker build -t demo-docker/ubuntu:14.04 git://github.com/chenzhiwei/hello-docker.git
-$ sudo docker run -d -p 2222:22 --name="demo-docker" demo-docker/ubuntu:14.04
+$ sudo docker run -d -p 2222:22 --name="container_name" --hostname="container_hostname" --dns="127.0.0.1" demo-docker/ubuntu:14.04
 $ ssh -p 2222 ubuntu@127.0.0.1
 Enter password: password
 ```
 
 After these three commands, you are now in a docker container, enjoy docker!
+
+Haha, before you enjoy docker, you need to start dnsmasq service in docker container.
 
 ## In the End
 

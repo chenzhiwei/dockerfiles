@@ -1,22 +1,19 @@
-# Ubuntu Base
+# CentOS Base
 #
 # VERSION 0.0.1
-#
+# 
 
-FROM ubuntu:14.04
+FROM centos
 MAINTAINER Chen Zhiwei <zhiweik@gmail.com>
 
-# add a new user since ubuntu disabled root user by default
-RUN useradd -m -d /home/ubuntu -s /bin/bash -G adm,sudo ubuntu
-
-# change the `ubuntu` user password to `password`
-RUN echo 'ubuntu:password' | chpasswd
+# change the `root` user password to `password`
+RUN echo 'root:password' | chpasswd
 
 # make sure the package repository is up to date
-RUN apt-get -qq update
+RUN yum -q -y clean all
 
 # install essential packages
-RUN apt-get -qqy install vim dnsmasq openssh-server bash-completion
+RUN yum -q -y install vim dnsmasq openssh-server
 
 # setup dnsmasq
 RUN echo 'user=root' >> /etc/dnsmasq.conf
@@ -27,12 +24,9 @@ RUN echo 'conf-dir=/etc/dnsmasq.d' >> /etc/dnsmasq.conf
 RUN echo 'nameserver 8.8.8.8' > /etc/resolv.dnsmasq.conf
 RUN echo 'nameserver 8.8.4.4' >> /etc/resolv.dnsmasq.conf
 
-# add files and change owner
-ADD ./config/dot_vimrc /home/ubuntu/.vimrc
-RUN chown -R ubuntu:ubuntu /home/ubuntu
-
+# run sshd service
 EXPOSE 22
-
+RUN service sshd start
+RUN service sshd stop
 RUN mkdir /var/run/sshd
-
 CMD ["/usr/sbin/sshd", "-D"]
