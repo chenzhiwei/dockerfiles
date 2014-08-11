@@ -64,6 +64,14 @@ After these three commands, you are now in a docker container, enjoy docker!
 
 Haha, before you enjoy docker, you need to start dnsmasq service in docker container.
 
+## Issues
+
+The warning when run `locale` command like this `locale: Cannot set LC_CTYPE to default locale: No such file or directory` means you did not generate en_US.UTF-8.
+
+This locale issue can be solved by run `localedef -v -c -i en_US -f UTF-8 en_US.UTF-8` on CentOS, and `locale-gen en_US.UTF-8` on Ubuntu.
+
+If you can't find `localedef` command on CentOS, you need to reinstall `glibc-common` package, `locales` package on Ubuntu.
+
 ## In the End
 
 Docker document: <https://docs.docker.com>
