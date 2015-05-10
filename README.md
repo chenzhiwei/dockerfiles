@@ -6,7 +6,8 @@ Docker is a Linux Container.
 
 ```
 $ sudo apt-get install docker.io
-$ sudo ln -sf /usr/bin/docker.io /usr/local/bin/docker
+$ sudo curl -sSL https://get.docker.com/builds/Linux/x86_64/docker-1.6.0 -o /usr/bin/docker
+$ sudo chmod +x /usr/bin/docker
 ```
 
 ## Docker image

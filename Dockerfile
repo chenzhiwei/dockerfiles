@@ -1,38 +1,30 @@
 # Ubuntu Base
 #
-# VERSION 0.0.1
+# VERSION 0.0.2
 #
 
-FROM ubuntu:14.04
+FROM ubuntu:15.04
 MAINTAINER Chen Zhiwei <zhiweik@gmail.com>
 
-# add a new user since ubuntu disabled root user by default
-RUN useradd -m -d /home/ubuntu -s /bin/bash -G adm,sudo ubuntu
+# Set Default username and password
+ENV _USERNAME_=zhiwei _PASSWORD_=password
 
-# change the `ubuntu` user password to `password`
-RUN echo 'ubuntu:password' | chpasswd
+# Add a new user and to admin group
+RUN useradd -m -d /home/$_USERNAME_ -s /bin/bash -G adm,sudo $_USERNAME_ \
 
-# make sure the package repository is up to date
-RUN apt-get -qq update
+    # Set the user password
+    && echo "$_USERNAME_:$_PASSWORD_" | chpasswd \
 
-# install essential packages
-RUN apt-get -qqy install vim dnsmasq openssh-server bash-completion
+    # Make sure the package repository is up to date
+    && apt-get -qq update \
 
-# setup dnsmasq
-RUN echo 'user=root' >> /etc/dnsmasq.conf
-RUN echo 'listen-address=127.0.0.1' >> /etc/dnsmasq.conf
-RUN echo 'resolv-file=/etc/resolv.dnsmasq.conf' >> /etc/dnsmasq.conf
-RUN echo 'conf-dir=/etc/dnsmasq.d' >> /etc/dnsmasq.conf
+    # Install essential packages
+    && apt-get -qqy install sudo vim git dnsmasq openssh-server bash-completion \
 
-RUN echo 'nameserver 8.8.8.8' > /etc/resolv.dnsmasq.conf
-RUN echo 'nameserver 8.8.4.4' >> /etc/resolv.dnsmasq.conf
+    && mkdir -p /var/run/sshd
 
-# add files and change owner
-ADD ./config/dot_vimrc /home/ubuntu/.vimrc
-RUN chown -R ubuntu:ubuntu /home/ubuntu
+VOLUME ["/var/lib/docker"]
 
 EXPOSE 22
-
-RUN mkdir /var/run/sshd
 
 CMD ["/usr/sbin/sshd", "-D"]
