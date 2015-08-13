@@ -1,0 +1,33 @@
+# Ubuntu Base
+#
+# VERSION 0.0.1
+#
+
+FROM ubuntu:14.04
+MAINTAINER Chen Zhiwei <zhiweik@gmail.com>
+
+# Set default root password
+ENV _ROOT_PASSWORD_=passw0rd
+
+# Unlock root user
+RUN passwd -u root \
+
+    # Set root password
+    && echo "root:$_ROOT_PASSWORD_" | chpasswd \
+
+    # Make sure the package repository is up to date
+    && apt-get -qq update \
+
+    # Install essential packages
+    && apt-get -qqy install vim git openssh-server bash-completion \
+
+    # Allow root ssh
+    && sed -i 's/^PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config \
+
+    && mkdir -p /var/run/sshd
+
+VOLUME ["/var/lib/docker"]
+
+EXPOSE 22
+
+CMD ["/usr/sbin/sshd", "-D"]

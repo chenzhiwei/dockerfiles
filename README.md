@@ -65,6 +65,33 @@ After these three commands, you are now in a docker container, enjoy docker!
 
 Haha, before you enjoy docker, you need to start dnsmasq service in docker container.
 
+## Running GUI apps
+
+Reference: <http://fabiorehm.com/blog/2014/09/11/running-gui-apps-with-docker/>
+
+```
+FROM ubuntu:14.04
+
+RUN apt-get update && apt-get install -y firefox
+
+# Replace 1000 with your user / group id
+RUN export uid=1000 gid=1000 && \
+    mkdir -p /home/developer && \
+    echo "developer:x:${uid}:${gid}:Developer,,,:/home/developer:/bin/bash" >> /etc/passwd && \
+    echo "developer:x:${uid}:" >> /etc/group && \
+    echo "developer ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/developer && \
+    chmod 0440 /etc/sudoers.d/developer && \
+    chown ${uid}:${gid} -R /home/developer
+
+USER developer
+ENV HOME /home/developer
+CMD /usr/bin/firefox
+```
+
+```
+# docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix firefox
+```
+
 ## Issues
 
 The warning when run `locale` command like this `locale: Cannot set LC_CTYPE to default locale: No such file or directory` means you did not generate en_US.UTF-8.
