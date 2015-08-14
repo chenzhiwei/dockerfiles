@@ -15,11 +15,20 @@ RUN passwd -u root \
     # Set root password
     && echo "root:$_ROOT_PASSWORD_" | chpasswd \
 
+    # Custom nameserver
+    && echo nameserver 223.5.5.5 > /etc/resolv.conf \
+
+    # Set mirror repo
+    && sed -i 's/archive.ubuntu.com/mirrors.163.com/g' /etc/apt/sources.list \
+
+    # Generate locale
+    && locale-gen en_US.UTF-8 \
+
     # Make sure the package repository is up to date
     && apt-get -qq update \
 
     # Install essential packages
-    && apt-get -qqy install vim git openssh-server bash-completion \
+    && apt-get -qqy install bash-completion curl git openssh-server vim \
 
     # Allow root ssh
     && sed -i 's/^PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config \
