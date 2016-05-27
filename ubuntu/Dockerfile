@@ -23,8 +23,8 @@ RUN passwd -u root \
     && locale-gen en_US.UTF-8 \
 
     # Install essential packages
-    && apt -qq update \
-    && apt -qqy install bash-completion curl git openssh-server vim \
+    && apt update \
+    && apt -y install bash-completion curl git openssh-server rsync vim \
 
     # Allow root ssh
     && sed -i 's/^PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config \
