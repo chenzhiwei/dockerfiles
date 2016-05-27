@@ -2,68 +2,29 @@
 
 Docker is a Linux Container.
 
-## Install docker
+## Docker images
+
+This repository contains some Dockerfiles that I used.
+
+## Build an Ubuntu sshd Docker image
 
 ```
-$ sudo apt-get install docker.io
-$ sudo curl -sSL https://get.docker.com/builds/Linux/x86_64/docker-1.6.0 -o /usr/bin/docker
-$ sudo chmod +x /usr/bin/docker
+# docker build --build-arg ROOT_PASSWORD=password -t ubuntu/sshd https://github.com/chenzhiwei/dockerfile.git#master:ubuntu
 ```
 
-## Docker image
-
-Docker image likes VM image, there is a [Docker Hub][docker-hub-url] that contains pre-built docker images, and you can also build your own docker images.
-
-When you run a docker container, you need to specify a docker image, and docker will first check if the image is present on you local disk, if not docker will fetch this image from Docker Hub.
-
-You can build your docker image and upload to Docker Hub.
-
-## Build a docker image from Dockerfile
+## Build a CentOS sshd Docker image
 
 ```
-$ sudo docker build -t chenzhiwei/ubuntu:14.04 /path/to/Dockerfile_dir
+# docker build --build-arg ROOT_PASSWORD=password -t centos/sshd https://github.com/chenzhiwei/dockerfile.git#master:centos
 ```
 
-Dockerfile format is located here: <https://docs.docker.com/reference/builder/>.
 
-There is a example Dockerfile in <https://github.com/chenzhiwei/hello-docker>.
-
-## Run a docker container
+## Run a Docker container
 
 ```
-$ sudo docker run -i -t --name="first_container" ubuntu:14.04 /bin/echo "Hello, World!"
+# docker run -d -p 2222:22 --name="sshd" --hostname=ubuntu ubuntu/sshd
+# ssh -p 2222 root@127.0.0.1
 ```
-
-`docker run` means run a docker container.
-
-`-i` means run docker container in interactive mode.
-
-`-t` means allocate a pseudo-tty do this docker container.
-
-`--name` means assign a name to this docker container.
-
-`ubuntu` means a docker image repository.
-
-`14.04` means a image tag, one image can have more than one tag.
-
-`/bin/echo "Hello, World!"` means run a command in the container.
-
-After this, you will launch your first container. If the `ubuntu::14.04` is not present on your local disk, docker will fetch it from [Docker Hub][docker-hub-url].
-
-[docker-hub-url]: https://hub.docker.com/
-
-## A full Demo
-
-```
-$ sudo docker build -t demo-docker/ubuntu:14.04 git://github.com/chenzhiwei/hello-docker.git
-$ sudo docker run -d -p 2222:22 --name="container_name" --hostname="container_hostname" --dns="127.0.0.1" demo-docker/ubuntu:14.04
-$ ssh -p 2222 ubuntu@127.0.0.1
-Enter password: password
-```
-
-After these three commands, you are now in a docker container, enjoy docker!
-
-Haha, before you enjoy docker, you need to start dnsmasq service in docker container.
 
 ## Running GUI apps
 
