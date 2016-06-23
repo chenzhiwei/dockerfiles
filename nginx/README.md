@@ -1,5 +1,7 @@
 # HTTP Proxy
 
+NOTE: it does not support https proxy.
+
 Run Nginx as HTTP proxy.
 
 ```
