@@ -12,13 +12,12 @@ RUN passwd -u root \
     # Set root password
     && echo "root:$ROOT_PASSWORD" | chpasswd \
 
-    # Custom nameserver
-    && echo nameserver 223.5.5.5 > /etc/resolv.conf \
-    && echo nameserver 223.6.6.6 >> /etc/resolv.conf \
+    # Force change root password in first login
+    && chage -d 0 root \
 
     # Install essential packages
     && yum clean all \
-    && yum -y install bash-completion curl git openssh-server rsync vim \
+    && yum -y install bash-completion curl git net-tools openssh-server rsync vim \
 
     # Allow root ssh
     && sed -i 's/^PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config \
@@ -28,4 +27,4 @@ RUN passwd -u root \
 
 EXPOSE 22
 
-CMD ["/usr/sbin/sshd", "-D"]
+ENTRYPOINT ["/usr/sbin/sshd", "-D"]

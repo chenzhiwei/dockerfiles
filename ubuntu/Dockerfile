@@ -12,19 +12,15 @@ RUN passwd -u root \
     # Set root password
     && echo "root:$ROOT_PASSWORD" | chpasswd \
 
-    # Custom nameserver
-    && echo nameserver 223.5.5.5 > /etc/resolv.conf \
-    && echo nameserver 223.6.6.6 >> /etc/resolv.conf \
-
-    # Set mirror repo
-    && sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list \
+    # Force change root password in first login
+    && chage -d 0 root \
 
     # Generate locale
     && locale-gen en_US.UTF-8 \
 
     # Install essential packages
     && apt update \
-    && apt -y install bash-completion curl git openssh-server rsync vim \
+    && apt -y install bash-completion curl git net-tools openssh-server rsync vim \
 
     # Allow root ssh
     && sed -i 's/^PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config \
@@ -33,4 +29,4 @@ RUN passwd -u root \
 
 EXPOSE 22
 
-CMD ["/usr/sbin/sshd", "-D"]
+ENTRYPOINT ["/usr/sbin/sshd", "-D"]
