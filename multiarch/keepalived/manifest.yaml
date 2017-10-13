@@ -1,0 +1,14 @@
+image: siji/keepalived:1.2.24
+manifests:
+  - image: siji/keepalived-amd64:1.2.24
+    platform:
+      architecture: amd64
+      os: linux
+  - image: siji/keepalived-ppc64le:1.2.24
+    platform:
+      architecture: ppc64le
+      os: linux
+  - image: siji/keepalived-s390x:1.2.24
+    platform:
+      architecture: s390x
+      os: linux
