@@ -1,0 +1,14 @@
+image: siji/openldap:2.4.42
+manifests:
+  - image: siji/openldap-amd64:2.4.42
+    platform:
+      architecture: amd64
+      os: linux
+  - image: siji/openldap-ppc64le:2.4.42
+    platform:
+      architecture: ppc64le
+      os: linux
+  - image: siji/openldap-s390x:2.4.42
+    platform:
+      architecture: s390x
+      os: linux
