@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PASSWORD=${PASSWORD:-admin}
-ORG=${ORG:-org}
+DOMAIN=${DOMAIN:-org}
 
 SLAPD_CONF=/etc/ldap/slapd.d
 
@@ -9,9 +9,9 @@ backend=mdb
 backendoptions="olcDbMaxSize: 1073741824"
 backendobjectclass="olcMdbConfig"
 
-basedn="dc=${ORG}"
-dc=${ORG}
-organization=${ORG}
+basedn="dc=$(echo $DOMAIN | sed 's/^\.//; s/\.$//; s/\./,dc=/g')"
+dc="$(echo $DOMAIN | sed 's/^\.//; s/\..*$//')"
+organization="${ORGANIZATION:-$DOMAIN}"
 adminpass=$(slappasswd -s $PASSWORD)
 
 function init_ldif() {
@@ -67,7 +67,7 @@ function initialize_ldap() {
 }
 
 function client_config() {
-    sed -i 's/dc=example,dc=com/dc='$ORG'/g' /etc/phpldapadmin/config.php
+    sed -i 's/dc=example,dc=com/'$basedn'/g' /etc/phpldapadmin/config.php
     sed -i 's/80/9580/g' /etc/apache2/ports.conf
     service apache2 start
 }
