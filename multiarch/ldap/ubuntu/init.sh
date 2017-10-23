@@ -53,12 +53,12 @@ function init_base() {
 }
 
 function initialize_ldap() {
-    if ! [[ -e /etc/ldap/ldap.lock ]]; then
-        touch /etc/ldap/ldap.lock
-        rm -rf /var/lib/ldap /var/run/slapd ${SLAPD_CONF}
-        mkdir -p /var/lib/ldap /var/run/slapd ${SLAPD_CONF}
+    mkdir -p ${SLAPD_CONF} /var/lib/ldap /var/run/slapd
+    if ! [[ -e ${SLAPD_CONF}/ldap.lock ]]; then
+        rm -rf /var/lib/ldap/* /var/run/slapd/* ${SLAPD_CONF}/*
         init_ldif
         init_base
+        touch ${SLAPD_CONF}/ldap.lock
     fi
 
     chown -R openldap:openldap /var/lib/ldap /var/run/slapd ${SLAPD_CONF}
@@ -67,8 +67,11 @@ function initialize_ldap() {
 }
 
 function client_config() {
-    sed -i 's/dc=example,dc=com/'$basedn'/g' /etc/phpldapadmin/config.php
-    sed -i 's/80/9580/g' /etc/apache2/ports.conf
+    if ! [[ -e /etc/apache2/apache.lock ]]; then
+        touch /etc/apache2/apache.lock
+        sed -i 's/dc=example,dc=com/'$basedn'/g' /etc/phpldapadmin/config.php
+        sed -i 's/80/9580/g' /etc/apache2/ports.conf
+    fi
     service apache2 start
 }
 
@@ -76,5 +79,5 @@ initialize_ldap
 client_config
 
 while true; do
-    sleep 9999999999
+    tail -f /dev/null
 done
