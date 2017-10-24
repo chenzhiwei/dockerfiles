@@ -5,8 +5,4 @@ if ! [[ -e $index_html ]] || grep -q 'Welcome to nginx' $index_html &>/dev/null;
     echo "Hello Nginx version ${NGINX_VERSION}, arch $(uname -m) and hostname $(hostname)" > $index_html
 fi
 
-if [[ "$1" == "" ]]; then
-    nginx -g "daemon off;"
-else
-    ${@}
-fi
+nginx -g "daemon off;"

@@ -1,14 +1,14 @@
-image: siji/nginx:1.12.1
+image: siji/nginx:1.12.2
 manifests:
-  - image: siji/nginx-amd64:1.12.1
+  - image: siji/nginx-amd64:1.12.2
     platform:
       architecture: amd64
       os: linux
-  - image: siji/nginx-ppc64le:1.12.1
+  - image: siji/nginx-ppc64le:1.12.2
     platform:
       architecture: ppc64le
       os: linux
-  - image: siji/nginx-s390x:1.12.1
+  - image: siji/nginx-s390x:1.12.2
     platform:
       architecture: s390x
       os: linux
