@@ -1,11 +1,8 @@
-FROM python:alpine
+FROM alpine:3.6
 
-RUN pip install shadowsocks
-
-COPY shadowsocks.json /etc/shadowsocks.json
-
-EXPOSE 8388
+RUN apk add --no-cache python py-pip libsodium \
+    && pip install https://github.com/shadowsocks/shadowsocks/archive/2.9.1.tar.gz
 
 ENTRYPOINT ["ssserver"]
 
-CMD ["-c", "/etc/shadowsocks.json"]
+CMD ["-p", "8388", "-k", "123456", "-m", "aes-256-cfb"]
