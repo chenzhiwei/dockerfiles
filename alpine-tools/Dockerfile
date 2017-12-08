@@ -1,6 +1,7 @@
 FROM alpine:3.6
 
 RUN apk add --no-cache \
+        apache2-utils \
         bash \
         bash-completion \
         bind-tools \
@@ -21,6 +22,6 @@ RUN apk add --no-cache \
     && mkdir -p /root/.ssh \
     && curl -sSL https://github.com/chenzhiwei/home/raw/master/.vimrc > /root/.vimrc \
     && curl -sSL https://github.com/chenzhiwei/home/raw/master/.gitconfig > /root/.gitconfig \
-    && curl -sSL https://github.com/chenzhiwei/home/raw/master/.ssh/config > /root/.ssh/config \
-    && sed -i -e 's/Chen Zhiwei/Tools/g' -e 's/zhiweik@gmail.com/tools@example.com/g' /root/.gitconfig \
-    && echo -e '#!/bin/sh\nsleep 365d' > /usr/bin/pause && chmod +x /usr/bin/pause
+    && curl -sSL https://github.com/chenzhiwei/home/raw/master/.ssh/config > /root/.ssh/config
+
+CMD ["tail", "-f", "/dev/null"]
