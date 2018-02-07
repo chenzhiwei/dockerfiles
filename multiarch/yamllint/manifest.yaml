@@ -1,0 +1,10 @@
+image: siji/yamllint:1.8.1
+manifests:
+  - image: siji/yamllint-amd64:1.8.1
+    platform:
+      architecture: amd64
+      os: linux
+  - image: siji/yamllint-ppc64le:1.8.1
+    platform:
+      architecture: ppc64le
+      os: linux
