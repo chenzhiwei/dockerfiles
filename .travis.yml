@@ -1,0 +1,29 @@
+sudo: required
+services: docker
+language: bash
+
+env:
+  global:
+    - DOCKER_REPO=siji
+
+  matrix:
+    - NAME=nginx
+    - NAME=shadowsocks
+    - NAME=polipo
+    - NAME=privoxy
+
+jobs:
+  include:
+    - stage: build-image
+      script: docker build -t $DOCKER_REPO/$NAME $NAME
+    - stage: build-image
+      script: docker build -t $DOCKER_REPO/$NAME:latest $NAME
+    - stage: push-image
+      script: echo push image to docker hub
+
+stages:
+  - build-image
+  - push-image
+
+after_success:
+  - if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" && docker push $DOCKER_REPO/$NAME; fi
