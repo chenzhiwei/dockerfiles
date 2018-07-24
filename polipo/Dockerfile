@@ -1,15 +1,14 @@
-FROM alpine
+FROM alpine:3.8 as builder
 
-RUN apk update \
-    && apk add gcc libc-dev make openssl \
+RUN apk add --no-cache gcc libc-dev make openssl \
     && wget https://github.com/jech/polipo/archive/polipo-1.1.1.tar.gz \
     && tar xf polipo-1.1.1.tar.gz \
     && cd polipo-polipo-1.1.1 \
-    && make \
-    && mv polipo /usr/local/bin \
-    && apk del gcc libc-dev make openssl \
-    && cd .. \
-    && rm -rf polipo-* /var/cache/apk/*
+    && make
+
+FROM alpine:3.8
+
+COPY --from=builder /polipo-polipo-1.1.1/polipo /usr/local/bin/polipo
 
 EXPOSE 8123
 ENTRYPOINT ["polipo"]
