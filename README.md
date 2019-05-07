@@ -53,6 +53,12 @@ CMD /usr/bin/firefox
 # docker run -ti --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix firefox
 ```
 
+## Build Multiarch image
+
+```
+manifest-tool push from-args --platforms linux/amd64,linux/ppc64le,linux/s390x --template siji/haproxy-ARCH:1.9.7 --target siji/haproxy:latest --ignore-missing
+```
+
 ## Issues
 
 The warning when run `locale` command like this `locale: Cannot set LC_CTYPE to default locale: No such file or directory` means you did not generate en_US.UTF-8.
