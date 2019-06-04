@@ -1,6 +1,6 @@
 FROM alpine
 
-RUN apk add --no-cache ca-certificates \
+RUN apk add --no-cache ca-certificates curl \
     && mkdir -p v2ray /etc/v2ray \
     && wget -P v2ray https://github.com/v2ray/v2ray-core/releases/latest/download/v2ray-linux-64.zip \
     && unzip -o -d v2ray v2ray/v2ray-linux-64.zip \
