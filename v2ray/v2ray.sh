@@ -19,14 +19,15 @@ function _check() {
 
 ## renew process
 function _renew() {
-    local current=$(cat /tmp/v2ray.current)
-    local latest=$(curl -Is https://github.com/v2ray/v2ray-core/releases/latest/download/v2ray-linux-64.zip | awk '/^Location/ {print $2;exit}')
+    current=$(cat /tmp/v2ray.current)
+    latest=$(curl -Is https://github.com/v2ray/v2ray-core/releases/latest/download/v2ray-linux-64.zip | awk '/^Location/ {print $2;exit}')
     if [[ "$current" != "$latest" ]]; then
         mkdir -p v2ray
         wget -P v2ray https://github.com/v2ray/v2ray-core/releases/latest/download/v2ray-linux-64.zip
         unzip -o -d v2ray v2ray/v2ray-linux-64.zip
         \cp v2ray/v2ray v2ray/v2ctl /usr/bin/
         rm -rf v2ray
+        echo $latest > /tmp/v2ray.current
     fi
 }
 
