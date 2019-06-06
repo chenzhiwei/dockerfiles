@@ -1,6 +1,6 @@
-FROM alpine:3.8
+FROM alpine
 
-ARG FRP_VERSION=0.22.0
+ARG FRP_VERSION=0.27.0
 
 RUN apk add --no-cache curl \
     && mkdir -p /etc/frp \

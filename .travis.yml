@@ -11,12 +11,19 @@ env:
     - DOCKER_REPO=siji
 
   matrix:
-    - NAME=shadowsocks
-    - NAME=polipo
+    - NAME=frp
+    - NAME=minio
     - NAME=privoxy
+    - NAME=ss
+    - NAME=v2ray
 
 before_script:
+  - cd weekly
   - docker build -t $DOCKER_REPO/$NAME:latest $NAME
 
 script:
-  - if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" && docker push $DOCKER_REPO/$NAME:latest; fi
+  - |
+    if [[ $TRAVIS_EVENT_TYPE == "cron" ]]; then
+      docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+      docker push $DOCKER_REPO/$NAME:latest
+    fi
