@@ -8,7 +8,18 @@ RUN FRP_VERSION=$(wget -q -O - https://api.github.com/repos/fatedier/frp/release
 
 FROM alpine
 
-COPY --from=builder /tmp/frpc /tmp/frps /usr/bin/
-COPY --from=builder /tmp/*.ini /etc/frp/
+ENV FRPS_BIND_PORT=11700 \
+    FRPS_TOKEN=frp \
+    FRPS_ALLOW_PORTS=11000-11010,11022
 
-CMD ["frps", "-c", "/etc/frp/frps.ini"]
+ENV FRPC_SERVER_ADDR=127.0.0.1 \
+    FRPC_SERVER_PORT=11700 \
+    FRPC_TOKEN=frp \
+    FRPC_SSH_REMOTE_PORT=11022 \
+    FRPC_SSH_USE_ENCRYPTION=false \
+    FRPC_SSH_USE_COMPRESSION=true
+
+COPY --from=builder /tmp/frpc /tmp/frps /usr/bin/
+COPY frpc.ini frps.ini /etc/frp/
+
+CMD ["frpc", "-c", "/etc/frp/frpc.ini"]
