@@ -1,8 +1,6 @@
-FROM alpine:3.6
+FROM alpine
 
-ENV NGINX_VERSION 1.12.2-r0
-
-RUN apk add --no-cache nginx=$NGINX_VERSION \
+RUN apk add --no-cache nginx \
     && mkdir -p /run/nginx \
     && ln -s /var/lib/nginx /usr/share/nginx \
     && ln -s /var/lib/nginx/html /var/www/html \
