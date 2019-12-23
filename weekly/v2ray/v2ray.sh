@@ -1,8 +1,10 @@
 #!/bin/sh
 
+export CONFIG=${CONFIG:-/etc/v2ray/config.json}
+
 ## start process
 function _start() {
-    v2ray -config /etc/v2ray/config.json &
+    v2ray -config $CONFIG &
     sleep 3
 }
 
