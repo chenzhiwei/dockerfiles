@@ -1,30 +1,26 @@
-FROM alpine:3.9
-
-ARG KUBE_VERSION=v1.14.2
+FROM alpine
 
 RUN apk add --no-cache \
-        apache2-utils \
+#        apache2-utils \
         bash \
-#        bash-completion \
-        binutils \
-        bind-tools \
+#        binutils \
+#        bind-tools \
         busybox-extras \
         curl \
-        file \
+#        file \
 #        git \
         iproute2 \
         iputils \
-        jq \
+#        jq \
         net-tools \
 #        nmap \
 #        openssh-client \
         openssl \
         unzip \
-#        vim \
-#        vimdiff \
-#        wget \
-#    && echo '. /etc/profile.d/bash_completion.sh' > /root/.bashrc \
-    && curl -ksSL -o /usr/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$KUBE_VERSION/bin/linux/amd64/kubectl \
+        vim \
+        vimdiff \
+    && version=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt) \
+    && curl -kL -o /usr/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$version/bin/linux/amd64/kubectl \
     && chmod +x /usr/bin/kubectl
 
 CMD ["/bin/bash"]
