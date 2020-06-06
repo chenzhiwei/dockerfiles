@@ -12,13 +12,11 @@ env:
 
   matrix:
     - NAME=frp
-    - NAME=minio
     - NAME=privoxy
     - NAME=ss
     - NAME=v2ray
 
 before_script:
-  - cd weekly
   - docker build -t $DOCKER_REPO/$NAME:latest $NAME
 
 script:
