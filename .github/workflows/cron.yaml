@@ -1,0 +1,51 @@
+name: CRON - build images
+
+on:
+  schedule:
+  - cron: '1 1 * * 6'
+  push:
+    branches:
+    - master
+
+jobs:
+  build:
+    name: build images
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: set up qemu
+      uses: docker/setup-qemu-action@v1
+
+    - name: set up docker buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: login docker hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USER }}
+        password: ${{ secrets.DOCKER_TOKEN }}
+
+    - name: login quay
+      uses: docker/login-action@v1
+      with:
+        registry: quay.io
+        username: ${{ secrets.QUAY_USER }}
+        password: ${{ secrets.QUAY_TOKEN }}
+
+    - name: build and push frp
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        context:  frp
+        platforms: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x
+        tags: |
+          quay.io/siji/frp:latest
+          docker.io/siji/frp:latest
+
+    - name: show info
+      run: docker images
