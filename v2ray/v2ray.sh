@@ -44,6 +44,8 @@ while true; do
         continue
     fi
 
+    sleep 5m
+
     current_date=$(date +%s)
     current_time=$((($current_date % 86400 + 28800) % 86400))
     # the current time is between 03:30:00 and 03:40:00
@@ -51,6 +53,6 @@ while true; do
         echo "renew at $(date)"
         _stop
         _renew
-        sleep 1m
+        sleep 10m
     fi
 done
