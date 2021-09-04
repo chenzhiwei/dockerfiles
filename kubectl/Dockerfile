@@ -1,4 +1,4 @@
-FROM alpine
+FROM docker.io/library/alpine:latest
 
 RUN apk add --no-cache \
 #        apache2-utils \
@@ -19,7 +19,7 @@ RUN apk add --no-cache \
         unzip \
         vim \
         vimdiff \
-    && version=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt) \
+    && version=$(curl -s -L https://dl.k8s.io/release/stable.txt) \
     && curl -kL -o /usr/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$version/bin/linux/amd64/kubectl \
     && chmod +x /usr/bin/kubectl
 

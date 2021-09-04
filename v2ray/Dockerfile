@@ -1,18 +1,16 @@
-FROM alpine AS builder
+FROM docker.io/library/alpine:latest AS builder
 
-RUN apk add --no-cache jq curl
-
-RUN VERSION=$(curl -s https://api.github.com/repos/v2fly/v2ray-core/releases/latest | jq -r .name) \
-    && curl -sLO https://github.com/v2fly/v2ray-core/releases/download/$VERSION/v2ray-linux-64.zip \
+RUN apk add --no-cache ca-certificates curl \
+    && curl -sLO https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip \
     && unzip -o -d / v2ray-linux-64.zip
 
-FROM alpine
+FROM docker.io/library/alpine:latest
 
-RUN apk add --no-cache ca-certificates curl jq
+RUN apk add --no-cache ca-certificates curl
 
 COPY --from=builder /v2ray /v2ctl /usr/bin/
 COPY --from=builder /config.json /etc/v2ray/config.json
 
-COPY v2ray.sh /usr/local/bin/v2ray.sh
+COPY v2ray.sh /v2ray.sh
 
-CMD ["v2ray.sh"]
+CMD ["/v2ray.sh"]

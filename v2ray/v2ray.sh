@@ -21,15 +21,14 @@ function _check() {
 
 ## renew process
 function _renew() {
-    current=$(cat /tmp/v2ray.current 2>/dev/null)
-    latest=$(curl -s https://api.github.com/repos/v2fly/v2ray-core/releases/latest | jq -r .name)
-    if [[ "$current" != "$latest" ]]; then
-        curl -sLO https://github.com/v2fly/v2ray-core/releases/download/$latest/v2ray-linux-64.zip
-        mkdir -p v2ray
-        unzip -o -d v2ray v2ray-linux-64.zip
+    curl -sLO https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip
+    mkdir -p v2ray
+    unzip -o -d v2ray v2ray-linux-64.zip
+    new=$(du v2ray/v2ray | awk '{print $1}')
+    old=$(du /usr/bin/v2ray | awk '{print $1}')
+    if [[ "$new" != "$old" ]]; then
         \cp v2ray/v2ray v2ray/v2ctl /usr/bin/
         rm -rf v2ray v2ray-linux-64.zip
-        echo $latest > /tmp/v2ray.current
     fi
 }
 
@@ -52,6 +51,6 @@ while true; do
         echo "renew at $(date)"
         _stop
         _renew
-        sleep 10m
+        sleep 1m
     fi
 done
