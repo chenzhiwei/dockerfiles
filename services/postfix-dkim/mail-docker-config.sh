@@ -2,7 +2,7 @@
 
 DOMAIN=${DOMAIN:-youya.org}
 
-sed -i "s/youya.org/${DOMAIN}/g" /etc/postfix/main.cf /etc/opendkim/*
+sed -i "s/youya.org/${DOMAIN}/g" /etc/postfix/main.cf /etc/opendkim/KeyTable /etc/opendkim/opendkim.conf /etc/opendkim/SigningTable
 
 if [ ! -f /etc/opendkim/keys/mail.private ]; then
     echo
