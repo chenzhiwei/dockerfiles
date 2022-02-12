@@ -1,1 +1,1 @@
-mail._domainkey.youya.org youya.org:mail:/etc/opendkim/keys/mail.private
+SELECTOR._domainkey.DOMAIN DOMAIN:SELECTOR:DKIM_KEY_FILE
