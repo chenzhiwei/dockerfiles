@@ -6,6 +6,7 @@ myorigin = $myhostname
 mydestination = localhost.$mydomain, localhost, localhost.localdomain
 bounce_template_file = /etc/postfix/bounce.cf
 maillog_file = /dev/stdout
+smtp_tls_security_level = encrypt
 milter_protocol = 6
 milter_default_action = accept
 smtpd_milters = inet:localhost:12301
