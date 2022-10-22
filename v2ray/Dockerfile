@@ -8,7 +8,7 @@ FROM docker.io/library/alpine:latest
 
 RUN apk add --no-cache ca-certificates curl
 
-COPY --from=builder /v2ray /v2ctl /usr/bin/
+COPY --from=builder /v2ray /usr/bin/
 COPY --from=builder /config.json /etc/v2ray/config.json
 
 COPY v2ray.sh /v2ray.sh

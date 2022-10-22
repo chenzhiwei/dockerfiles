@@ -4,7 +4,7 @@ export CONFIG=${CONFIG:-/etc/v2ray/config.json}
 
 ## start process
 function _start() {
-    v2ray -config $CONFIG &
+    v2ray run -config $CONFIG &
     sleep 3
 }
 
@@ -27,7 +27,7 @@ function _renew() {
     new=$(du v2ray/v2ray | awk '{print $1}')
     old=$(du /usr/bin/v2ray | awk '{print $1}')
     if [[ "$new" != "$old" ]]; then
-        \cp v2ray/v2ray v2ray/v2ctl /usr/bin/
+        \cp v2ray/v2ray /usr/bin/
         rm -rf v2ray v2ray-linux-64.zip
     fi
 }
