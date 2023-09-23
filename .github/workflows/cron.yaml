@@ -52,5 +52,5 @@ jobs:
     - name: build and push image
       run: |
         podman build --platform linux/arm64,linux/amd64 --manifest ${{ matrix.name }}:latest ${{ matrix.name }}
-        podman manifest push --all clash:latest ${{ env.QUAY_REGISTRY }}/siji/${{matrix.name}}:latest
-        podman manifest push --all clash:latest ${{ env.DOCKER_REGISTRY }}/siji/${{matrix.name}}:latest
+        podman manifest push --all ${{matrix.name}}:latest ${{ env.QUAY_REGISTRY }}/siji/${{matrix.name}}:latest
+        podman manifest push --all ${{matrix.name}}:latest ${{ env.DOCKER_REGISTRY }}/siji/${{matrix.name}}:latest
