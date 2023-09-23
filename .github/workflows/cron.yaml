@@ -1,6 +1,7 @@
 name: CRON - build images
 
 on:
+  workflow_dispatch: {}
   schedule:
   - cron: '1 1 * * 6'
   push:
