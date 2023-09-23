@@ -1,4 +1,4 @@
-# docker.io/siji/ubuntu:systemd
+# podman build --platform linux/amd64,linux/arm64 --manifest docker.io/siji/ubuntu:systemd .
 
 FROM docker.io/library/ubuntu:22.04
 
