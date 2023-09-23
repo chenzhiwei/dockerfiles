@@ -30,20 +30,27 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: build image
-      uses: redhat-actions/buildah-build@v2
-      with:
-        image: quay.io/siji/${{ matrix.name }}
-        tags: latest
-        archs: amd64, arm64
-        containerfiles: |
-          ${{ matrix.name }}/Dockerfile
+    - name: install podman
+      run: |
+        sudo apt update
+        sudo apt -y install podman qemu-user-static
 
-    - name: push image
-      uses: redhat-actions/push-to-registry@v2
+    - name: quay login
+      uses: redhat-actions/podman-login@v1
       with:
-        image: quay.io/siji/${{ matrix.name }}
-        tag: latest
+        registry: ${{ env.QUAY_REGISTRY }}
+        username: ${{ secrets.QUAY_USER }}
+        password: ${{ secrets.QUAY_TOKEN }}
+
+    - name: docker login
+      uses: redhat-actions/podman-login@v1
+      with:
+        registry: ${{ env.DOCKER_REGISTRY }}
         username: ${{ secrets.DOCKER_USER }}
         password: ${{ secrets.DOCKER_TOKEN }}
-        registry: ${{ env.DOCKER_REGISTRY }}
+
+    - name: build and push image
+      run: |
+        podman build --platform linux/arm64,linux/amd64 --manifest ${{ matrix.name }}:latest ${{ matrix.name }}
+        podman manifest push --all clash:latest ${{ env.QUAY_REGISTRY }}/siji/${{matrix.name}}:latest
+        podman manifest push --all clash:latest ${{ env.DOCKER_REGISTRY }}/siji/${{matrix.name}}:latest
