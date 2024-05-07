@@ -1,4 +1,4 @@
-FROM docker.io/library/ubuntu:22.04
+FROM docker.io/library/debian:stable-slim
 
 RUN apt update \
     && apt -y install nfs-server --no-install-recommends \

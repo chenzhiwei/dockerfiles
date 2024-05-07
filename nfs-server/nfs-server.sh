@@ -7,7 +7,7 @@ function _start_all() {
     rpcbind -w
     rpc.mountd
     exportfs -r
-    rpc.nfsd -G 5
+    rpc.nfsd
     rpc.statd --no-notify -F &
     wait ${!}
 }
@@ -37,8 +37,6 @@ function _stop() {
     exportfs -f
     kill $(pidof rpc.statd) $(pidof rpc.mountd) $(pidof rpcbind)
     umount /proc/fs/nfsd
-
-    exit 0
 }
 
 trap _stop SIGTERM
