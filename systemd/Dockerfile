@@ -1,6 +1,6 @@
 # podman build --platform linux/amd64,linux/arm64 --manifest docker.io/siji/ubuntu:systemd .
 
-FROM docker.io/library/ubuntu:22.04
+FROM docker.io/library/ubuntu:latest
 
 RUN apt update \
     && apt -y --no-install-recommends install ca-certificates conntrack curl ebtables ethtool fuse-overlayfs jq keyutils kmod nfs-common nftables iproute2 iptables iputils-ping ipvsadm rpcbind rsync socat systemd vim \
