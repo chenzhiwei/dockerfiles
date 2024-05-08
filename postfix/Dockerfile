@@ -4,6 +4,9 @@ RUN cd supervisord && go mod tidy && CGO_ENABLED=0 go build -o /tmp/supervisord 
 
 FROM docker.io/library/alpine:3.15
 
+LABEL org.opencontainers.image.authors="zhiwei@youya.org"
+LABEL org.opencontainers.image.documentation="https://github.com/chenzhiwei/dockerfiles"
+
 RUN apk add --no-cache postfix opendkim opendkim-utils ca-certificates cyrus-sasl
 
 COPY supervisord.conf /etc/supervisor/supervisord.conf

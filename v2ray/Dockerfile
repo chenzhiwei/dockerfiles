@@ -6,6 +6,9 @@ RUN unzip -o -d / v2ray-linux-64.zip
 
 FROM docker.io/library/alpine:latest
 
+LABEL org.opencontainers.image.authors="zhiwei@youya.org"
+LABEL org.opencontainers.image.documentation="https://github.com/chenzhiwei/dockerfiles"
+
 RUN apk add --no-cache ca-certificates curl
 
 COPY --from=builder /v2ray /usr/bin/
