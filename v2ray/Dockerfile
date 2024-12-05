@@ -1,8 +1,9 @@
 FROM docker.io/library/alpine:latest AS builder
 
 RUN apk add --no-cache ca-certificates curl
-RUN curl -sLO https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip
-RUN unzip -o -d / v2ray-linux-64.zip
+RUN arch=$(uname -m | sed -e 's/x86_64/64/' -e 's/aarch64/arm64-v8a/') \
+    && curl -sLO https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-${arch}.zip \
+    && unzip -o -d / v2ray-linux-${arch}.zip
 
 FROM docker.io/library/alpine:latest
 
