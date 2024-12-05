@@ -18,7 +18,8 @@ jobs:
       fail-fast: false
       matrix:
         name:
-        - privoxy
+        - nfs-server
+        - samba
         - v2ray
     name: build images
     runs-on: ubuntu-latest
