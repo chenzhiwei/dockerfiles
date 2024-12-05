@@ -1,12 +1,13 @@
 name: CRON - build images
 
-on:
-  workflow_dispatch: {}
-  schedule:
-  - cron: '1 1 * * 6'
-  push:
-    branches:
-    - master
+on: workflow_dispatch
+# on:
+#   workflow_dispatch: {}
+#   schedule:
+#   - cron: '1 1 * * 6'
+#   push:
+#     branches:
+#     - master
 
 env:
   QUAY_REGISTRY: quay.io
@@ -18,9 +19,10 @@ jobs:
       fail-fast: false
       matrix:
         name:
-        - nfs-server
-        - samba
+        - clash
         - v2ray
+        - samba
+        - nfs-server
     name: build images
     runs-on: ubuntu-latest
 
@@ -29,7 +31,7 @@ jobs:
     - name: checkout code
       uses: actions/checkout@v3
       with:
-        fetch-depth: 0
+        fetch-depth: 1
 
     - name: install podman
       run: |

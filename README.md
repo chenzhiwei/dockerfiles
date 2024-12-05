@@ -2,7 +2,6 @@
 
 Choose bases images:
 
-1. ubuntu:latest
 1. debian:stable-slim
 1. alpine:latest
 
@@ -11,7 +10,8 @@ Choose bases images:
 ```
 podman build --platform linux/amd64,linux/arm64 --manifest docker.io/siji/ubuntu .
 
-podman manifest push docker.io/siji/ubuntu
+podman manifest push docker.io/siji/ubuntu quay.io/siji/ubuntu
+podman manifest push docker.io/siji/ubuntu docker.io/siji/ubuntu
 ```
 
 ## Registry URL
