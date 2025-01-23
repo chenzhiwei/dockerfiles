@@ -8,7 +8,7 @@ ZONE_ID=${CF_ZONE_ID:-zone_id}
 DNS_RECORD_ID=${CF_DNS_RECORD_ID:-record_id}
 
 function get_dns_ip() {
-    dig +short +https @$DOH_SERVER $DOMAIN
+    curl -s "https://$DOH_SERVER/resolve?name=$DOMAIN" | jq -r .Answer[0].data
 }
 
 function get_my_ip() {
