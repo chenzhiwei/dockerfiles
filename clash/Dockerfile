@@ -11,7 +11,7 @@ RUN ARCH=$(uname -m | sed -e 's/x86_64/amd64/' -e 's/aarch64/arm64/') \
     && chmod +x mihomo-linux-* \
     && mv mihomo-linux-* clash
 
-FROM docker.io/library/debian:stable-slim
+FROM docker.io/library/ubuntu:latest
 
 LABEL org.opencontainers.image.authors="zhiwei@youya.org"
 LABEL org.opencontainers.image.documentation="https://github.com/chenzhiwei/dockerfiles"
