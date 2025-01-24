@@ -2,6 +2,7 @@
 
 Choose bases images:
 
+1. ubuntu:latest
 1. debian:stable-slim
 1. alpine:latest
 
