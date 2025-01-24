@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 INTERVAL=${INTERVAL:-120}
 DOMAIN=${DOMAIN:-example.com}
@@ -51,7 +51,7 @@ function get_my_ip() {
 
 function cloudflare_update_ip() {
     local ip=$1
-    curl https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/$DNS_RECORD_ID \
+    curl -s https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/$DNS_RECORD_ID \
         -X PATCH \
         -H "Authorization: Bearer $API_TOKEN" \
         -d '{
