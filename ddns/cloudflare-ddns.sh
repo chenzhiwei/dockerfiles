@@ -66,6 +66,7 @@ while :; do
     myip=$(get_my_ip)
     dnsip=$(get_dns_ip)
     if [[ "$myip" != "$dnsip" ]] && [[ "$myip" != "" ]]; then
+        echo "$(date --rfc-3339=seconds) Update $DOMAIN to $myip"
         cloudflare_update_ip $myip
     fi
 done
