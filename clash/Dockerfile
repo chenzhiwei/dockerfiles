@@ -1,8 +1,8 @@
 # podman build --platform linux/arm64,linux/amd64 --manifest docker.io/siji/clash:latest .
 # podman manifest push docker.io/siji/clash:latest docker.io/siji/clash:latest
-FROM docker.io/library/alpine:latest AS builder
+FROM docker.io/library/ubuntu:latest AS builder
 
-RUN apk add --no-cache curl jq
+RUN apt update && apt install -y curl jq
 
 RUN ARCH=$(uname -m | sed -e 's/x86_64/amd64/' -e 's/aarch64/arm64/') \
     && VERSION=$(curl -s https://api.github.com/repos/MetaCubeX/mihomo/releases/latest | jq -r .name) \
