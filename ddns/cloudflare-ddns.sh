@@ -2,13 +2,13 @@
 
 INTERVAL=${INTERVAL:-120}
 DOMAIN=${DOMAIN:-example.com}
-DOH_SERVER=${DOH_SERVER:-223.5.5.5}
 API_TOKEN=${CF_API_TOKEN:-token}
 ZONE_ID=${CF_ZONE_ID:-zone_id}
 DNS_RECORD_ID=${CF_DNS_RECORD_ID:-record_id}
 
 function get_dns_ip() {
-    curl -s "https://$DOH_SERVER/resolve?name=$DOMAIN" | jq -r .Answer[0].data
+    curl -s https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/$DNS_RECORD_ID \
+        -H "Authorization: Bearer $API_TOKEN" | jq -r .result.content
 }
 
 function get_my_ip() {
@@ -59,6 +59,7 @@ function cloudflare_update_ip() {
           "name": "'$DOMAIN'",
           "type": "A"
         }'
+    echo
 }
 
 while :; do
