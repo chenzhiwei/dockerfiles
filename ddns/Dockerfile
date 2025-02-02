@@ -7,6 +7,6 @@ RUN apt update \
     && apt install -y --no-install-recommends ca-certificates curl jq tini \
     && rm -rf /var/lib/apt/lists/*
 
-COPY cloudflare-ddns.sh /cloudflare-ddns.sh
+COPY ddns.sh /usr/bin/ddns.sh
 
-CMD ["tini", "--", "/cloudflare-ddns.sh"]
+CMD ["tini", "--", "ddns.sh"]
