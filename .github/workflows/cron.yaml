@@ -19,6 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         name:
+        - aria2
         - ddns
         - clash
         - v2ray
