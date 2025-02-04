@@ -7,6 +7,7 @@ RUN apt update \
     && apt install -y --no-install-recommends aria2 ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-COPY aria2.conf /etc/aria2/aria2.conf
+COPY aria2.sh aria2.conf /
+WORKDIR /config
 
-CMD ["aria2c", "--conf-path=/etc/aria2/aria2.conf"]
+CMD ["/aria2.sh"]
