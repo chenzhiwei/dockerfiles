@@ -15,6 +15,8 @@ RUN apt update \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /v2ray /usr/bin/
-COPY --from=builder /config.json /etc/v2ray/config.json
 
-CMD ["v2ray", "run", "-c", "/etc/v2ray/config.json"]
+COPY v2ray.sh /usr/bin/v2ray.sh
+COPY v2ray.json /etc/v2ray/v2ray.json
+
+CMD ["v2ray.sh"]

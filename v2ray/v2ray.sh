@@ -1,58 +1,23 @@
 #!/bin/sh
 
-export CONFIG=${CONFIG:-/etc/v2ray/config.json}
+V2RAY_SERVER_MODE=${V2RAY_SERVER_MODE:-true}
 
-## start process
-function _start() {
-    v2ray run -config $CONFIG &
-    sleep 3
-}
+VMESS_ADDR=${VMESS_ADDR:-127.0.0.1}
+VMESS_PORT=${VMESS_PORT:-443}
+VMESS_UUID=${VMESS_UUID:-00000000-0000-0000-0000-000000000000}
+VMESS_SERVER_NAME=${VMESS_SERVER_NAME:-localhost}
+VMESS_WS_PATH=${VMESS_WS_PATH:-/}
 
-## stop process
-function _stop() {
-    pkill -9 v2ray
-    sleep 3
-}
+V2RAY_CONFIG_FILE=${V2RAY_CONFIG_FILE:-/etc/v2ray/v2ray.json}
 
-## check process
-function _check() {
-    pidof v2ray >/dev/null
-}
-
-## renew process
-function _renew() {
-    curl -sLO https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip
-    mkdir -p v2ray
-    unzip -o -d v2ray v2ray-linux-64.zip
-    new=$(du v2ray/v2ray | awk '{print $1}')
-    old=$(du /usr/bin/v2ray | awk '{print $1}')
-    if [[ "$new" != "$old" ]]; then
-        \cp v2ray/v2ray /usr/bin/
-        rm -rf v2ray v2ray-linux-64.zip
-    fi
-}
-
-# start v2ray
-_start
-
-# periodically renew v2ray
-while true; do
-    _check
-    if [[ $? -ne 0 ]]; then
-        sleep 60s
-        _start
-        continue
-    fi
-
-    sleep 5m
-
-    current_date=$(date +%s)
-    current_time=$((($current_date % 86400 + 28800) % 86400))
-    # the current time is between 03:30:00 and 03:40:00
-    if [[ $current_time -gt 12600 ]] && [[ $current_time -lt 13200 ]]; then
-        echo "renew at $(date)"
-        _stop
-        _renew
-        sleep 10m
-    fi
-done
+if [ "$V2RAY_SERVER_MODE" != "true" ]; then
+    sed -e "s/vmess.addr/$VMESS_ADDR/g" \
+        -e "s/vmess.port/$VMESS_PORT/g" \
+        -e "s/vmess.uuid/$VMESS_UUID/g" \
+        -e "s/vmess.serverName/$VMESS_SERVER_NAME/g" \
+        -e "s@vmess.ws.path@$VMESS_WS_PATH@g" \
+        -i $V2RAY_CONFIG_FILE
+    exec v2ray run -format jsonv5 -c $V2RAY_CONFIG_FILE
+else
+    exec v2ray run -c $V2RAY_CONFIG_FILE
+fi
