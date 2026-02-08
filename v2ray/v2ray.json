@@ -1,14 +1,4 @@
 {
-  "log": {
-    "access": {
-      "type": "None",
-      "level": "Info"
-    },
-    "error": {
-      "type": "Console",
-      "level": "Warning"
-    }
-  },
   "inbounds": [
     {
       "port": 8123,
@@ -18,27 +8,34 @@
   ],
   "outbounds": [
     {
-      "tag": "proxy",
       "protocol": "vmess",
       "settings": {
-        "address": "vmess.addr",
-        "port": vmess.port,
-        "uuid": "vmess.uuid"
+        "vnext": [
+          {
+            "address": "vmess.addr",
+            "port": vmess.port,
+            "users": [
+              {
+                "security": "auto",
+                "id": "vmess.uuid"
+              }
+            ]
+          }
+        ]
       },
       "streamSettings": {
+        "network": "ws",
         "security": "tls",
-        "securitySettings": {
+        "tlsSettings": {
           "serverName": "vmess.serverName"
         },
-        "transport": "ws",
-        "transportSettings": {
-          "path": "vmess.ws.path"
+        "wsSettings": {
+          "path": "vmess.ws.path",
+          "headers": {
+            "Host": "vmess.serverName"
+          }
         }
       }
-    },
-    {
-      "tag": "direct",
-      "protocol": "freedom"
     }
   ]
 }

@@ -17,7 +17,6 @@ if [ "$V2RAY_SERVER_MODE" != "true" ]; then
         -e "s/vmess.serverName/$VMESS_SERVER_NAME/g" \
         -e "s@vmess.ws.path@$VMESS_WS_PATH@g" \
         -i $V2RAY_CONFIG_FILE
-    exec v2ray run -format jsonv5 -c $V2RAY_CONFIG_FILE
-else
-    exec v2ray run -c $V2RAY_CONFIG_FILE
 fi
+
+exec v2ray run -c $V2RAY_CONFIG_FILE
