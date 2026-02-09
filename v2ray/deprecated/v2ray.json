@@ -1,0 +1,41 @@
+{
+  "inbounds": [
+    {
+      "port": 8123,
+      "listen": "0.0.0.0",
+      "protocol": "http"
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "vmess.addr",
+            "port": vmess.port,
+            "users": [
+              {
+                "security": "auto",
+                "id": "vmess.uuid"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "tls",
+        "tlsSettings": {
+          "serverName": "vmess.serverName"
+        },
+        "wsSettings": {
+          "path": "vmess.ws.path",
+          "headers": {
+            "Host": "vmess.serverName"
+          }
+        }
+      }
+    }
+  ]
+}

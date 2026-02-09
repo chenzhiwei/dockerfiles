@@ -19,4 +19,4 @@ if [ "$V2RAY_SERVER_MODE" != "true" ]; then
         -i $V2RAY_CONFIG_FILE
 fi
 
-exec v2ray run -c $V2RAY_CONFIG_FILE
+exec v2ray run -c $V2RAY_CONFIG_FILE -format jsonv5
