@@ -22,9 +22,10 @@ jobs:
         - aria2
         - ddns
         - clash
-        - v2ray
-        - samba
+        - filebrowser
         - nfs-server
+        - samba
+        - v2ray
     name: build images
     runs-on: ubuntu-latest
 
